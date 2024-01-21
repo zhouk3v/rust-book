@@ -4,13 +4,14 @@ fn main() {
     //
 
     /*
-    // References are address that point to an object in the heap. It is guarenteed that they will point to a valid object
+    // References are addresses that point to an object in the heap (or stack). It is guarenteed that they will point to a valid object
     {
         let s1 = String::from("hello");
         
         // Use a '&' before an object name to create a reference
         // The &s1 reference will refer the value of s1, but it does not own it
         // The action of creating a reference is called borrowing
+        // NOTE: to clear up some terminology, 'len' is a variable that HOLDS a reference, while &s1 is the reference itself
         let len = calculate_length(&s1);
 
         // s1 is still valid here, as we just pass in a reference to calculate_length instead of moving it
