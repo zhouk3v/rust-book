@@ -207,6 +207,7 @@ mod front_of_house {
 // Using 'pub' in front of 'use' will allow external code to use the shortcut too
 // This is called re-exporting
 // If the use shortcut is not public, external code will need to use 'restaurant::front_of_house::hosting' instead
+// Instead, external code can now use the path hosting::<whatever>
 pub use crate::front_of_house::hosting;
 
 pub fn eat_at_restaurant() {
