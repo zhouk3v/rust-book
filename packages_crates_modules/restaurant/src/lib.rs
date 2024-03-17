@@ -1,3 +1,8 @@
+//
+// Defining Modules to Control Scope and Privacy - Paths for Referring to an Item in the Module Tree
+//
+
+/* 
 mod front_of_house {
     // Need to make the hosting module public (modules are private by default) to allow ancestor modules to refer to it (note that siblings are NOT ancestors)
     // Items in a parent module can't use the private itesm inside child modules, but items in child modules can use the items in their ancestor modules
@@ -87,3 +92,163 @@ pub fn eat_at_restaurant() {
     let order1 = back_of_house::Appetizer::Soup;
     let order2 = back_of_house::Appetizer::Salad;
 }
+*/
+
+//
+// Bringing paths into scope with the use keyword
+//
+
+/* 
+mod front_of_house {
+    pub mod hosting {
+        pub fn add_to_waitlist() {}
+    }
+}
+
+// Create a shortcut in a path with the use keyword
+// Similar to creating a symbolic link in a filesystem
+use crate::front_of_house::hosting;
+
+pub fn eat_at_restaurant() {
+    // hosting is now a valid name in the crate root
+    hosting::add_to_waitlist();
+}
+
+// Note that use only applies in the scope that it's in
+// The previous use only applies in the crate scope, and so is invalid in the customer scope below
+// To fix it, create a new use statement in customer, or use 'super' to go up to the crate scope
+mod customer {
+
+    // Creating a new use statement
+    //use crate::front_of_house::hosting;
+    pub fn eat_at_restaurant() {
+        //hosting::add_to_waitlist();
+
+        // Using super to go up to the crate scope
+        super::hosting::add_to_waitlist();
+    }
+}
+*/
+
+//
+// Creating idiomatic use paths
+//
+
+/*
+mod front_of_house {
+    pub mod hosting {
+        pub fn add_to_waitlist() {}
+    }
+}
+
+// It is unidiomatic to bring an entire function in with use
+// We need to specify the parent module for the function
+use crate::front_of_house::hosting::add_to_waitlist;
+
+pub fn eat_at_restaurant() {
+    // It is not clear here that the add_to_waitlist function is not locally defined
+    add_to_waitlist();
+}
+ 
+
+// We need to use the full path when bringing in structs, enum, and other items with use.
+use std::collections::HashMap;
+
+fn main() {
+    let mut map = HashMap::new();
+    map.insert(1, 2);
+}
+
+// Exception: bringing in two items with the same name into scope
+
+// Both the fmt and io modules have a Result object
+use std::fmt;
+use std::io;
+
+fn function1() -> fmt::Result {
+
+}
+
+fn function2() -> io::Result {
+
+}
+*/
+
+//
+// Providing New Names with the 'as' keyword
+//
+
+// We can use 'as' to specify an alias for a type from a module
+
+/*
+use std::fmt::Result;
+use std::io::Result as IoResult;
+
+fn function1() -> Result {
+
+}
+
+fn function2() -> IoResult {
+
+}
+ */
+
+//
+// Re-exporting Names with pub use
+//
+
+/*
+mod front_of_house {
+    pub mod hosting {
+        pub fn add_to_waitlist() {}
+    }
+}
+
+// Using 'pub' in front of 'use' will allow external code to use the shortcut too
+// This is called re-exporting
+// If the use shortcut is not public, external code will need to use 'restaurant::front_of_house::hosting' instead
+pub use crate::front_of_house::hosting;
+
+pub fn eat_at_restaurant() {
+    hosting::add_to_waitlist();
+}
+*/
+
+//
+// Using External Packages
+//
+
+// To use external packages, add it to Cargo.toml
+
+// Then bring it into the scope with 'use'
+use rand::Rng;
+
+fn main() {
+    let secret_number = rand::thread_rng().gen_range(1..=100);
+}
+
+// Note that the std library is a crate that is external, but the library is packaged with the Rust language, so we don't need to import it into Cargo.toml
+use std::collections::HashMap;
+
+
+//
+// Using Nested Paths to Clean Up Large use Lists
+//
+
+// We can group use statements from the same module with a nested path
+use std::{cmp::Ordering, io};
+
+// Nested paths can be used at any level
+// The below brings in std::io and std::io::Write into the scope
+use std::io::{self, Write};
+
+//
+// The Glob operator
+//
+
+// The *glob operator brings in all public items in a module into the scope
+use std::collections::*;
+
+
+
+
