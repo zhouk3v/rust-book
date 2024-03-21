@@ -132,7 +132,7 @@ fn main() {
     }
     */
 
-    // You can also iterate over a vector with a range, which does not use a pointer
+    // You can also iterate over a vector with a range, which does not use a pointer. The iterator will return vector indexes
     let mut v = vec![1, 2];
     let mut iter = 0..v.len();
     let i1 = iter.next().unwrap();
