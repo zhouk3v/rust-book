@@ -1,4 +1,5 @@
 use std::env;
+use std::fs;
 
 fn main() {
     // args() returns an iterator over the passed in command line args
@@ -11,4 +12,8 @@ fn main() {
     // Note that the program name takes up the first value of the args vector
     println!("Searching for {}", query);
     println!("In file {}", file_path);
+
+    let contents = fs::read_to_string(file_path).expect("Should have been able to read the file");
+
+    println!("With text:\n{contents}");
 }
