@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "unrecoverable_errors"
+name = "panic"
 version = "0.1.0"
