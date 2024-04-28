@@ -2,3 +2,4 @@
 *.pdb
 target/
 targetRbB3SP/
+.idea/
