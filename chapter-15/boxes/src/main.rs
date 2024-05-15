@@ -58,12 +58,14 @@ fn main() {
 //
 
 // For an enum, Rust will go through each of the variants to see which variant needs the most space
+/*
 enum Message {
     Quit,
     Move { x: i32, y: i32 },
     Write(String),
     ChangeColor(i32, i32, i32),
 }
+*/
 
 // For the `Message` enum, Rust sees that Message::Quit doesn't need any space, Message::Move needs space for two i32 values, and so on
 // Since only one variant will be used, the most space a `Message` enum value will need would be equivlent to the space needed to store the largest variant
@@ -85,6 +87,7 @@ enum Message {
 // The Box<T> will point to the next List value that will be on the heap rather than inside the Cons variant
 // Think of this implementation as putting the items next to each other rather than inside each other (like a linked list!)
 
+/*
 enum List {
     Cons(i32, Box<List>),
     Nil,
@@ -109,6 +112,7 @@ fn main() {
     let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
     list.print();
 }
+*/
 
 // Here, the Cons variant needs the size of an i32 plus the space to store the box's pointer data.
 // Thus, any List value will take up the size of an i32 plus the size of a box's pointer data.
@@ -119,3 +123,26 @@ fn main() {
 
 // The Box<T> is a smart pointer because it implements the `Deref` trait, which allows Box<T> values to be treated like references
 // When a Box<T> value goes out of scope, the heap data that the box is pointing to is cleaned up due to the `Drop` trait implementation
+
+// Extra stuff - not in book
+
+fn main() {
+    // We can use the `:p` format to print the raw memory address that a Box<T> points to in the heap
+    let x = Box::new(5);
+    println!("Value of x: {}", x);
+    println!("Heap address of the value of x: {:p}", x);
+    // This also works for references, which further drives the point home that Box<T> and references are pointers (memory addresses)
+    let y = &x;
+    println!("Address stored in y (Stack address of x): {:p}", y);
+    println!(
+        "Heap address of the value of x through dereferencing y: {:p}",
+        *y
+    );
+    let z = &y;
+    println!("Address stored in z (Stack address of y): {:p}", z);
+    println!("Stack address of x through dereferencing z: {:p}", *z);
+    println!(
+        "Heap address of the value of x through dereferencing z twice: {:p}",
+        **z
+    );
+}
