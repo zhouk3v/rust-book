@@ -64,6 +64,7 @@ fn main() {
 // Cloning an Rc<T> Increases the Reference Count
 //
 
+/*
 fn main() {
     let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
     // Rc::strong_count will return the number of references to the Rc<T>
@@ -77,4 +78,22 @@ fn main() {
     // count will down by one when c goes out of scope
     println!("count after c goes out of scope = {}", Rc::strong_count(&a));
 }
+ */
 // Not seen: b and a go out of scope after main, count drops to 0 and the Rc<T> is cleaned up
+
+// Aside(not in book): Smart Pointer behaviour in Rc<T>
+
+fn main() {
+    // Whenever we create a new Rc<T>, it allocates data on the heap
+    let a = Rc::new(5);
+    // The variable that contains the Rc<T> will print out the memory address of the data in the heap
+    println!("{:p}", a);
+
+    // Any other variable that clones the Rc<T> instances will also print out the same memory address
+    let b = Rc::clone(&a);
+    println!("{:p}", b);
+
+    // Note: you don't always need to clone from the orignal Rc<T>, calling Rc::clone() on a cloned Rc<T> also works!
+    let c = Rc::clone(&b);
+    println!("{:p}", c);
+}
