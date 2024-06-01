@@ -121,17 +121,17 @@ fn main() {
     // The closure will determine what way to use based on what does the body of the function do with the captured values
 
     // Closure that captures an immutable reference
-    // Note that the `list` variable is still able to be read with immutable references before the closure definition,
+    // Note that the `list` variable is still able to be read with immutable references before the closure definition
     let list = vec![1, 2, 3];
     println!("Before defining closure: {:?}", list);
 
     let only_borrows = || println!("From closure: {:?}", list);
 
-    // between the closure definition and calling,
+    // The `list` variable is still able to be read with immutable references between the closure definition and calling,
     println!("Before calling closure: {:?}", list);
     // Example that a variable can bind to a closure definition, so we call the closure using the variable name and parentheses
     only_borrows();
-    // and after the closure call
+    // The `list` variable is still able to be read with immutable references after the closure call
     println!("After calling closure: {:?}", list);
 
     // Closure that captures a mutable reference
@@ -170,7 +170,7 @@ fn main() {
     // A closure body can do any of the following:
     // - Move a captured value out of the closure
     //   - Note: Moving a captured value here means transferring ownership of the value to another function,
-    //   it does not necessarily mean moving the value back into the environment!
+    //     it does not necessarily mean moving the value back into the environment!
     // - Mutate the captured value
     // - Neither move nor mutate the value
     // - Capture nothing from the enviroment to begin with
