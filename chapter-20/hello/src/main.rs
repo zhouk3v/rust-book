@@ -14,7 +14,7 @@ fn main() {
     let pool = ThreadPool::new(4);
 
     // incoming() returns an iterator that gives us a sequence of streams of type `TcpStream` (a stream represents a connection between a client and server)
-    for stream in listener.incoming() {
+    for stream in listener.incoming().take(2) {
         // Read from the `TcpStream` to see what the client sent
         let stream = stream.unwrap();
 
@@ -22,6 +22,8 @@ fn main() {
             handle_connections(stream);
         });
     }
+
+    println!("Shutting down.");
 }
 
 fn handle_connections(mut stream: TcpStream) {
